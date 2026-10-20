@@ -1,0 +1,12 @@
+@host=http://localhost
+@port=4444
+@server={{host}}:{{port}}
+
+PUT {{server}}/api/readers/1
+Content-Type: application/json
+
+{
+    "name": "aron",
+    "email": "aron@example.com",
+    "phone": "+1234567890"
+}

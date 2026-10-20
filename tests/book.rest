@@ -1,0 +1,17 @@
+@host=http://localhost
+@port=4444
+@server={{host}}:{{port}}
+
+### Összes könyv
+GET {{server}}/api/books
+
+### Könyv módosítása ID alapján
+PATCH {{server}}/api/books/1
+Content-Type: application/json
+
+{
+    "title": "proba",
+    "author": "aron",
+    "category": "programozas",
+    "published_year": 2026
+}
