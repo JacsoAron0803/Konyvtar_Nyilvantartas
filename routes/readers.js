@@ -59,13 +59,21 @@ router.put('/:id', (req, res)=>{
 })
 //olvaso torlese
 router.delete('/:id', (req, res)=>{
-    db.query('DELETE FROM readers WHERE id = ?', [req.params.id], (err, results)=>{
+    db.query('SELECT * FROM loans WHERE reader_id = ?', [req.params.id], (err, results)=>{
         if (err){
             console.log(err)
             return res.status(500).json({error: 'Database query error'})
         }
-        return res.status(200).json({message: 'Reader deleted successfully'})
+        if (results.length > 0) {
+            return res.status(400).json({error: 'Cannot delete reader with existing loans'})
+        }
+            db.query('DELETE FROM readers WHERE id = ?', [req.params.id], (err, results)=>{
+            if (err){
+                console.log(err)
+                return res.status(500).json({error: 'Database query error'})
+            }
+            return res.status(200).json({message: 'Reader deleted successfully'})
     })
 })
+})
 module.exports = router;
- 

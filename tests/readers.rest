@@ -2,11 +2,27 @@
 @port=4444
 @server={{host}}:{{port}}
 
+### Összes olvasó lekérése
+GET {{server}}/api/readers
+
+### Egy olvasó lekérése ID alapján
+GET {{server}}/api/readers/1
+
+###új olvasó ltérehozása
+POST {{server}}/api/readers
+Content-Type: application/json
+
+{
+    "name": "aron",
+    "email": "aron@teszt.com",
+    "phone": "+1234567890"
+}
+###olvasó adatainak módosítása
 PUT {{server}}/api/readers/1
 Content-Type: application/json
 
 {
     "name": "aron",
-    "email": "aron@example.com",
+    "email": "aron@modositas.com",
     "phone": "+1234567890"
 }

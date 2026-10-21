@@ -1,0 +1,48 @@
+
+@host=http://localhost
+@port=4444
+@server={{host}}:{{port}}
+
+### Összes kölcsönzés lekérése
+GET {{server}}/api/loans
+
+### Egy kölcsönzés lekérése ID alapján
+GET {{server}}/api/loans/1
+
+
+### Új kölcsönzés létrehozása
+POST {{server}}/api/loans
+Content-Type: application/json
+
+{
+    "reader_id": 1,
+    "book_id": 1,
+    "book_available": 1,
+    "loan_date": "2026-10-21",
+    "due_date": "2026-11-04"
+}
+
+### Kölcsönzés adatainak módosítása
+PUT {{server}}/api/loans/1
+Content-Type: application/json
+
+{
+    "reader_id": 1,
+    "book_id": 2,
+    "book_available": 1,
+    "loan_date": "2026-10-21",
+    "due_date": "2026-11-10"
+}
+
+### Visszahozás dátumának rögzítése
+PATCH {{server}}/api/loans/1/return
+Content-Type: application/json
+
+{
+    "return_date": "2026-10-28"
+}
+
+
+### Kölcsönzés törlése
+DELETE {{server}}/api/loans/1
+
