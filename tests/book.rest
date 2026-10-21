@@ -40,3 +40,6 @@ Content-Type: application/json
 
 ### Könyv törlése ID alapján
 DELETE {{server}}/api/books/1
+
+### elerheto konyvek lekerese
+GET {{server}}/api/books/available

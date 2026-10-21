@@ -73,26 +73,38 @@ router.patch('/:id', (req, res) => {
 });
 //konyv torlese ha nincs kolcsonzesi rekord
 router.delete('/:id', (req, res) => {
-    const kolcsonzes_id = req.body;
 
+    db.query('SELECT * FROM loans WHERE book_id = ?', [req.params.id], (err, results) => {
+        if (err) {
+            return res.status(500).json({error: 'Database query error'});
+
+        }
+        if (results.length > 0) {
+            return res.status(400).json({error: 'Cannot delete book with existing loans'});
+        }
+    
     db.query('DELETE FROM books WHERE id = ?', [req.params.id], (err, results) => {
         if (err) {
-            console.error(err);
-            return res.status(500).json({
-                error: 'Database query error'
-            });
+            return res.status(500).json({error: 'Database query error'});
         }
 
         if (results.affectedRows === 0) {
-            return res.status(404).json({
-                error: 'Book not found'
-            });
+            return res.status(404).json({error: 'Book not found'});
         }
 
-        return res.status(200).json({
-            message: 'Book deleted successfully'
-        });
+        return res.status(200).json({message: 'Book deleted successfully'});
+    });
+    })
+});
+router.get('/available', (req, res) => {
+    db.query('SELECT * FROM books WHERE id IN (SELECT book_id FROM loans)', (err, results) => {
+        if (err) {
+            return res.status(500).json({error: 'Database query error'});
+        }
+        if (results.length === 0) {
+            return res.status(404).json({error: 'No available books found'});
+        }
+        return res.status(200).json(results);
     });
 });
-
 module.exports = router;
